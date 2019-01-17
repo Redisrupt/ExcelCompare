@@ -95,10 +95,12 @@
     </target>
 	
 	<target name="java-version-check">
-	    <fail message="Java version: ${ant.java.version}, required at most 1.6.">
+	    <fail message="Java version: ${ant.java.version}, required at most 1.8.">
 	    	<condition>
 	    	  <not>
 	    	    <or>
+	    	      <equals arg1="${ant.java.version}" arg2="1.8" />
+	    	      <equals arg1="${ant.java.version}" arg2="1.7" />
 	    	      <equals arg1="${ant.java.version}" arg2="1.6" />
 	    	      <equals arg1="${ant.java.version}" arg2="1.5" />
 	    	    </or>
@@ -107,7 +109,7 @@
 	    </fail>
 	</target>
 	
-    <target name="build" depends="java-version-check, jar, copy-jars, copy-readme, copy-legal, write-binaries, create-zip"/>
+    <target name="build" depends="java-version-check, jar, copy-jars, copy-readme, copy-legal, write-binaries, write-dockerfile, create-zip"/>
 	
 	<target name="create-zip" depends="load-props">
 		<zip destfile="${project.name}-${full.version}.zip" basedir="${installer.staging}" />
@@ -117,6 +119,10 @@
         <copy file="${basedir}/scripts/${binary_name}" tofile="${installer.staging}/bin/${binary_name}" />
         <chmod file="${installer.staging}/bin/${binary_name}" perm="+x"/>
         <copy file="${basedir}/scripts/${binary_name}.bat" tofile="${installer.staging}/bin/${binary_name}.bat" />
+    </target>
+	
+	 <target name="write-dockerfile" depends="load-props">
+        <copy file="${basedir}/Dockerfile" tofile="${installer.staging}/bin/Dockerfile" />
     </target>
     
     <target name="copy-jars" depends="load-props">
