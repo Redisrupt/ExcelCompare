@@ -32,7 +32,7 @@ public class SpreadSheetIterator implements ISpreadSheetIterator {
           }
         } else if ((rows != null) && (rows.hasNext())) {
           IRow row = rows.next();
-          if (!ignoreRow(row)) {
+          if (row.getRowIndex() == 0) {
             cells = row.getCellIterator();
           }
         } else if (sheetIterator.hasNext()) {
