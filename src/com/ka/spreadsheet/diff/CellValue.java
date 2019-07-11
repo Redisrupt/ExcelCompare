@@ -5,7 +5,6 @@ public class CellValue {
   private final boolean hasFormula;
   private final String formula;
   private final Object value;
-  private final ICellValueTransformer valueTransformer = new PropertySetupColCellValueTransformer();
 
   public CellValue(boolean hasFormula, String formula, Object value) {
     this.hasFormula = hasFormula;
@@ -40,7 +39,7 @@ public class CellValue {
       return false;
     } else { // both not null
       if (Flags.DIFF_IGNORE_COL_METADATA && value instanceof String && other.value instanceof String) {
-        if (valueTransformer.transform(value).equals(valueTransformer.transform(other.value))) {
+        if (PropertySetupColCellValueTransformer.transform(value).equals(PropertySetupColCellValueTransformer.transform(other.value))) {
           return true;
         }
       }
