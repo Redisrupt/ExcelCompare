@@ -147,6 +147,7 @@ class RowExcel implements IRow {
 class CellExcel implements ICell {
 
   private Cell cell;
+  private final ICellValueTransformer valueTransformer = new PropertySetupColCellValueTransformer();
 
   public CellExcel(Cell cell) {
     this.cell = cell;
@@ -185,6 +186,9 @@ class CellExcel implements ICell {
         break;
       default:
         value = cell.getStringCellValue();
+        if (!hasFormula && Flags.DIFF_IGNORE_COL_METADATA) {
+          value = valueTransformer.transform(value);
+        }
         break;
     }
     return new CellValue(hasFormula, formula, value);

@@ -9,10 +9,12 @@ public class Flags {
   private static final String DIFF_NUMERIC_PRECISION_FLAG = "--diff_numeric_precision";
   // no value, default absent
   private static final String DIFF_IGNORE_FORMULAS_FLAG = "--diff_ignore_formulas";
+  private static final String DIFF_IGNORE_COL_NAME_METADATA = "--diff_ignore_col_metadata";
 
   public static boolean DEBUG;
   public static Double DIFF_NUMERIC_PRECISION;
   public static boolean DIFF_IGNORE_FORMULAS;
+  public static boolean DIFF_IGNORE_COL_METADATA;
   public static File WORKBOOK1;
   public static File WORKBOOK2;
   public static WorkbookIgnores WORKBOOK_IGNORES1;
@@ -39,6 +41,11 @@ public class Flags {
     idx = findFlag(DIFF_IGNORE_FORMULAS_FLAG, args);
     if (idx != -1) {
       DIFF_IGNORE_FORMULAS = true;
+      args = removeFlag(idx, args);
+    }
+    idx = findFlag(DIFF_IGNORE_COL_NAME_METADATA, args);
+    if (idx != -1) {
+      DIFF_IGNORE_COL_METADATA = true;
       args = removeFlag(idx, args);
     }
     if (args.length < 2) {
