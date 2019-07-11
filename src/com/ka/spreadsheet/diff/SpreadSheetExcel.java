@@ -185,6 +185,9 @@ class CellExcel implements ICell {
         break;
       default:
         value = cell.getStringCellValue();
+        if (!hasFormula && Flags.DIFF_IGNORE_COL_METADATA) {
+          value = PropertySetupColCellValueTransformer.transform(value);
+        }
         break;
     }
     return new CellValue(hasFormula, formula, value);

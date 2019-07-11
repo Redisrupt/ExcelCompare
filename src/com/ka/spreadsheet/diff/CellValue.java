@@ -38,6 +38,11 @@ public class CellValue {
     } else if (other.value == null) {
       return false;
     } else { // both not null
+      if (Flags.DIFF_IGNORE_COL_METADATA && value instanceof String && other.value instanceof String) {
+        if (PropertySetupColCellValueTransformer.transform(value).equals(PropertySetupColCellValueTransformer.transform(other.value))) {
+          return true;
+        }
+      }
       if (value.equals(other.value)) {
         return true;
       }
